@@ -69,8 +69,8 @@ def calculate(data):
   N, J = int(N), int(J)
   #print(N, J)
   results = []
-  i  = 2**N
-  end = 2**(N+1)-1
+  i  = 2**(N-1)
+  end = 2**N-1
   while i<end and len(results)<J:
     i += 1
     b = "{0:b}".format(i)
@@ -80,7 +80,7 @@ def calculate(data):
       results.append(r)
       print(r)
       base = list(range(2,11))
-      print("TEST:", b, [int(b, base[j])/d[j] for j in range(9)])
+      #print("TEST:", b, [int(b, base[j])/d[j] for j in range(9)])
   return results
   
 
@@ -106,8 +106,8 @@ def out(filename, results):
 
 
 def main():
-  #filename = 'C-large-practice.in'
-  filename = 'C-small-practice.in'
+  filename = 'C-large-practice.in'
+  #filename = 'C-small-practice.in'
   r = process(filename)
   out(filename, r)
 
