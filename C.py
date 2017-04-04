@@ -19,10 +19,8 @@ def is_prime(n):
 
 
 def get_divisor(n):
-  if n<=1:
-    return n
-  elif n<=3:
-    return 3
+  if n<=3:
+    return False
   elif n%3 == 0: 
     return 3 
   elif n%4 == 0:
@@ -34,6 +32,9 @@ def get_divisor(n):
     if n%(i+2) == 0:
       return i+2
     i += 6
+    # ignore when divisor is getting too big
+    if i > 1000000:
+      return False
   return False
 
 
@@ -56,11 +57,13 @@ def is_jamcoin(binary):
 def get_jamcoin_divisors(binary):
   if not binary.startswith('1') or not binary.endswith('1'):
     return False
-  divisors = [get_base_divisor(binary, base) for base in range(2,11)]
-  if all(divisors):
-    return divisors
-  else:
-    return False
+  divisors = []
+  for base in range(2,11):
+    d = get_base_divisor(binary, base)
+    divisors.append(d)
+    if not d:
+      return False
+  return divisors
 
 
 def calculate(data):
@@ -74,11 +77,12 @@ def calculate(data):
   while i<end and len(results)<J:
     i += 1
     b = "{0:b}".format(i)
+    #print(b)
     d = get_jamcoin_divisors(b)
     if d:
       r = [b] + d
       results.append(r)
-      print(r)
+      #print(r)
       base = list(range(2,11))
       #print("TEST:", b, [int(b, base[j])/d[j] for j in range(9)])
   return results
